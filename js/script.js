@@ -36,6 +36,11 @@ function throttle(callback, delay = 1000) {
 }
 
 ///////////////////////////////////////////////////////////
+// DISPLAY FOOTER CURRENT YEAR
+const year = document.querySelector(".year");
+year.innerHTML = new Date().getFullYear();
+
+///////////////////////////////////////////////////////////
 // SCROLL HEADER AND SCREEN RESIZE FUNCTIONALITY
 
 const headerEl = document.querySelector(".header");
@@ -231,20 +236,28 @@ sliderContainer.addEventListener("touchend", function (event) {
 });
 
 /* SLIDE AUTOMATICALLY */
-// let autoSlide = setInterval(() => {
-//   nextBtn.click();
-// }, 3000);
+let autoSlide = setInterval(() => {
+  sliderIndex++;
+  if (sliderIndex === slider.length) {
+    sliderIndex = 0;
+  }
+  slide();
+}, 7000);
 
 /* STOP SLIDE ON HOVER */
-// sliderContainer.addEventListener("mouseover", function () {
-//   clearInterval(autoSlide);
-// });
+sliderContainer.addEventListener("mouseover", function () {
+  clearInterval(autoSlide);
+});
 
-// sliderContainer.addEventListener("mouseout", function () {
-//   autoSlide = setInterval(() => {
-//     nextBtn.click();
-//   }, 3000);
-// });
+sliderContainer.addEventListener("mouseout", function () {
+  autoSlide = setInterval(() => {
+    sliderIndex++;
+    if (sliderIndex === slider.length) {
+      sliderIndex = 0;
+    }
+    slide();
+  }, 7000);
+});
 
 ///////////////////////////////////////////////////////////
 // RANGE SLIDER FUNCTIONALITY
@@ -386,8 +399,8 @@ const accordionIcons = document.querySelectorAll(".accordion-icon");
 const boxContainer = document.querySelectorAll(".accordion-text-container");
 
 accordionIcons.forEach((icon, index) =>
-  icon.addEventListener("click", function (event) {
-    const boxText = accordionItem[index].querySelector(".accordion-text");
+  icon.addEventListener("click", function () {
+    const boxText = boxContainer[index].querySelector(".accordion-text");
     if (accordionItem[index].classList.contains("accordion--open")) {
       accordionItem[index].classList.remove("accordion--open");
       boxContainer[index].style.height = "0";
@@ -453,7 +466,7 @@ function removeCartWidget() {
 // ACCOUNT WIDGET FUNCTIONALITY
 
 const accountWidget = document.querySelector(".account-widget");
-const [btnAccount, btnAccoundFooter] =
+const [btnAccount, btnAccountFooter] =
   document.querySelectorAll(".btn-account");
 const btnAccountClose = accountWidget.querySelector(".btn-widget--close");
 
@@ -466,7 +479,7 @@ const [signUser, registerUser] = accountWidget.querySelectorAll(
 );
 
 btnAccount.addEventListener("click", toggleAccountWidget);
-btnAccoundFooter.addEventListener("click", toggleAccountWidget);
+btnAccountFooter.addEventListener("click", toggleAccountWidget);
 btnAccountClose.addEventListener("click", toggleAccountWidget);
 
 function toggleAccountWidget() {
@@ -477,43 +490,6 @@ function toggleAccountWidget() {
 function removeAccountWidget() {
   body.contains("account-widget--open") && body.remove("account-widget--open");
 }
-
-///////////////////////////////////////////////////////////
-// PRIVATE POLICY WIDGET FUNCTIONALITY
-
-// const privatePolicyWidget = document.querySelector(".private-policy--widget");
-// const btnPrivatePolicyClose =
-//   privatePolicyWidget.querySelector(".btn-widget--close");
-// const btnPrivatePolicy = document.querySelector(".btn-private-policy");
-
-// btnPrivatePolicy.addEventListener("click", togglePrivatePolicy);
-// btnPrivatePolicyClose.addEventListener("click", togglePrivatePolicy);
-
-// function togglePrivatePolicy() {
-//   body.toggle("private-rules--open");
-// }
-
-// function removePrivatePolicy() {
-//   body.contains("private-rules--open") && body.remove("private-rules--open");
-// }
-
-///////////////////////////////////////////////////////////
-// BUY RULES WIDGET FUNCTIONALITY
-
-// const buyRulesWidget = document.querySelector(".buy-rules--widget");
-// const btnBuyRules = document.querySelector(".btn-buy-rules");
-// const btnBuyRulesClose = buyRulesWidget.querySelector(".btn-widget--close");
-
-// btnBuyRules.addEventListener("click", toggleBuyRules);
-// btnBuyRulesClose.addEventListener("click", toggleBuyRules);
-
-// function toggleBuyRules() {
-//   body.toggle("buy-rules--open");
-// }
-
-// function removeBuyRules() {
-//   body.contains("buy-rules--open") && body.remove("buy-rules--open");
-// }
 
 ///////////////////////////////////////////////////////////
 // FILTER WIDGET FUNCTIONALITY
@@ -552,7 +528,7 @@ document.body.addEventListener("click", function (event) {
   if (
     !accountWidget.contains(event.target) &&
     !btnAccount.contains(event.target) &&
-    !btnAccoundFooter.contains(event.target)
+    !btnAccountFooter.contains(event.target)
   ) {
     removeAccountWidget();
   }
@@ -678,7 +654,6 @@ function removeMobileNav() {
 const textBox = document.querySelector(".cta-form textarea");
 
 textBox.addEventListener("input", function () {
-  console.log(textBox.scrollHeight);
   textBox.style.height = "auto";
   textBox.style.height = textBox.scrollHeight + "px";
 });
@@ -709,3 +684,40 @@ cta.addEventListener("submit", function (e) {
     ? console.log("tuscia")
     : console.log("netusica");
 });
+
+///////////////////////////////////////////////////////////
+// PRIVATE POLICY WIDGET FUNCTIONALITY
+
+// const privatePolicyWidget = document.querySelector(".private-policy--widget");
+// const btnPrivatePolicyClose =
+//   privatePolicyWidget.querySelector(".btn-widget--close");
+// const btnPrivatePolicy = document.querySelector(".btn-private-policy");
+
+// btnPrivatePolicy.addEventListener("click", togglePrivatePolicy);
+// btnPrivatePolicyClose.addEventListener("click", togglePrivatePolicy);
+
+// function togglePrivatePolicy() {
+//   body.toggle("private-rules--open");
+// }
+
+// function removePrivatePolicy() {
+//   body.contains("private-rules--open") && body.remove("private-rules--open");
+// }
+
+///////////////////////////////////////////////////////////
+// BUY RULES WIDGET FUNCTIONALITY
+
+// const buyRulesWidget = document.querySelector(".buy-rules--widget");
+// const btnBuyRules = document.querySelector(".btn-buy-rules");
+// const btnBuyRulesClose = buyRulesWidget.querySelector(".btn-widget--close");
+
+// btnBuyRules.addEventListener("click", toggleBuyRules);
+// btnBuyRulesClose.addEventListener("click", toggleBuyRules);
+
+// function toggleBuyRules() {
+//   body.toggle("buy-rules--open");
+// }
+
+// function removeBuyRules() {
+//   body.contains("buy-rules--open") && body.remove("buy-rules--open");
+// }
